@@ -1,0 +1,60 @@
+[build-system]
+  requires = ["setuptools>=77"]
+  build-backend = "setuptools.build_meta"
+
+[project]
+  name = "pythonplusplus"
+  readme = "README.md"
+  authors = [{name = "Jérémy Rapin"}]
+  requires-python = ">=3.12"
+  version = "0.1"
+  description="A python toolbox"
+  license="MIT"
+  
+  dependencies = []
+  classifiers=[
+      "Intended Audience :: Science/Research",
+      "Topic :: Scientific/Engineering",
+      "Programming Language :: Python",
+  ]
+
+[dependency-groups]
+  dev = [
+      # Test
+      "pytest>=4.3.0",
+      # Format + lint
+      "ruff==0.15.8",  # same as .pre-commit-config.yaml
+      "pre-commit>=3.0.0",
+      # typing
+      "mypy>=1.11.0",
+  ]
+  notebooks = [  # uv sync --group notebooks
+      "ipykernel",
+      "numpy",
+      "snakeviz",
+      "torch",
+  ]
+
+
+
+[tool.setuptools.packages.find]
+  where = ["."]  # list of folders that contain the packages (["."] by default)
+  include = ["pythonplusplus*"]  # package names should match these glob patterns (["*"] by default)
+  exclude = []  # exclude packages matching these glob patterns (empty by default)
+  namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.setuptools.package-data]
+  "pythonplusplus" = ["py.typed"]
+
+
+[tool.ruff]
+  extend-exclude = ["docs"]  # tutorial notebooks keep their own layout
+
+[tool.ruff.lint]
+  extend-select = ["I"]  # import sorting (replaces isort)
+
+[tool.ruff.lint.per-file-ignores]
+  "__init__.py" = ["F401"]  # re-exports
+
+[tool.mypy]
+  warn_unused_ignores = true
